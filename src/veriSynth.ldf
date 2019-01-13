@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BaliProject version="3.2" title="veriSynth" device="LCMXO2-256HC-4SG32C" default_implementation="impl1">
+    <Options/>
+    <Implementation title="impl1" dir="impl1" description="impl1" synthesis="lse" default_strategy="Strategy1">
+        <Options def_top="VeriSynth"/>
+        <Source name="PDMEncoder.v" type="Verilog" type_short="Verilog">
+            <Options/>
+        </Source>
+        <Source name="VeriSynth.v" type="Verilog" type_short="Verilog">
+            <Options top_module="VeriSynth"/>
+        </Source>
+        <Source name="veriSynth.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Strategy name="Strategy1" file="veriSynth1.sty"/>
+</BaliProject>
