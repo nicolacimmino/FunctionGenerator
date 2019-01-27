@@ -18,3 +18,9 @@ LOCATE COMP "pin19_sclk" SITE "9" ;
 LOCATE COMP "pin20_miso" SITE "10" ;
 LOCATE COMP "pin21" SITE "11" ;
 LOCATE COMP "pin22" SITE "12" ;
+
+LOCATE COMP "pin_vs_cs" SITE "8";		// Ax Pin 18
+LOCATE COMP "pin_vs_mosi" SITE "5";		// Ax Pin 17
+LOCATE COMP "pin_vs_ss" SITE "4";		// Ax Pin 16
+LOCATE COMP "pin_vs_led" SITE "20";		// Ax Pin 5
+LOCATE COMP "pin_vs_dout" SITE "21";	// Ax Pin 6

@@ -19,32 +19,46 @@
 
  */
 module VeriSynth (
-  output pin5,
-  output pin6
+  output pin_vs_led,
+  output pin_vs_dout,
+  input pin_vs_ss,
+  input pin_vs_mosi,
+  input pin_vs_cs  
 );
 
+	wire [7:0] controlWord;
 	wire clk;
-	  
+	wire controlInterfaceReady;
+	reg [7:0] amplitude;		
+
 	OSCH #(
 	.NOM_FREQ("2.08")
 	) internal_oscillator_inst (
-		.STDBY(1'b0), 
+		.STDBY(1'b0),		
 		.OSC(clk)
 	);
-
-	reg [23:0] led_timer;		
-	assign pin5 = led_timer[21];
-	always @(posedge clk) begin
-		led_timer <= led_timer + 1; 
-	end
-
-	
+		
 	PDMEncoder #(
 		.DATA_BITS(8)
 	) pdm_encoder (
 		.clock(clk),
-		.amplitude(led_timer[17:10]),
-		.digital_out(pin6)
+		.amplitude(amplitude),
+		.digital_out(pin_vs_dout)
 	);
 	
+	ControlInterface #(
+		.DATA_BITS(8)
+	) control_interface (
+		.controlWord(controlWord),
+		.controlWordReady(controlInterfaceReady),
+		.SCLK(pin_vs_ss),
+		.MOSI(pin_vs_mosi),
+		.SS(pin_vs_cs) 
+	);
+	
+	always @(posedge controlInterfaceReady) begin		amplitude <= controlWord;
+	end
+	
+	assign pin_vs_led = controlInterfaceReady;
+		
 endmodule

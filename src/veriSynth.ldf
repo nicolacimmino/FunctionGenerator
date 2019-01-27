@@ -9,6 +9,12 @@
         <Source name="VeriSynth.v" type="Verilog" type_short="Verilog">
             <Options top_module="VeriSynth"/>
         </Source>
+        <Source name="ControlInterface.v" type="Verilog" type_short="Verilog">
+            <Options/>
+        </Source>
+        <Source name="simulation/simulation.spf" type="Simulation Project File" type_short="SPF">
+            <Options/>
+        </Source>
         <Source name="veriSynth.lpf" type="Logic Preference" type_short="LPF">
             <Options/>
         </Source>
