@@ -39,7 +39,7 @@ module VeriSynth (
 		.OSC(clk)
 	);
 		
-    // The PDM encoder.			
+	// The PDM encoder.			
 	PDMEncoder #(
 		.DATA_BITS(8)
 	) pdm_encoder (
