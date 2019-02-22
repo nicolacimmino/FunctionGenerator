@@ -17,29 +17,34 @@
    You should have received a copy of the GNU General Public License
     along with this program.  If not, see http://www.gnu.org/licenses/.
 
- */
-module ControlInterface  #(parameter DATA_BITS = 8)(
-  output [DATA_BITS-1:0] controlWord,
-  output wire controlWordReady,
+ */ 
+module ControlInterface  #(parameter ADDR_BITS = 4, parameter DATA_BITS = 8)(
+  output [DATA_BITS-1 : 0] controlWord,
+  output [ADDR_BITS-1 : 0] controlAddress,
+  output wire controlReady,
   input wire SCLK,
   input wire MOSI,
   input wire SS   
 );
-
-	reg [DATA_BITS-1:0] shiftRegister;
-	reg [DATA_BITS-1:0] outputRegister;
-		
+	parameter REGISTER_SIZE = ADDR_BITS + DATA_BITS;
+	
+	reg [REGISTER_SIZE-1 : 0] shiftRegister;
+	reg [REGISTER_SIZE-1 : 0] outputRegister;
+	
+	// Clock data from MOSI into shiftRegister if SS is asserted.
 	always @(posedge SCLK) begin
 		if (SS == 1) begin			
 			shiftRegister <= (shiftRegister << 1 | MOSI);
 		end
 	end
 
+	// Write the output register on the negative edge of SS.
 	always @(negedge SS) begin
 	  outputRegister <= shiftRegister;	  
 	end
 
-	assign controlWordReady = SS;
-	assign controlWord = outputRegister;
+	assign controlReady = SS;
+	assign controlAddress = outputRegister[REGISTER_SIZE-1 -: ADDR_BITS];
+	assign controlWord  = outputRegister[DATA_BITS-1 : 0];
 	
 endmodule

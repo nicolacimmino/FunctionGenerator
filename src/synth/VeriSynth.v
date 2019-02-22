@@ -27,10 +27,11 @@ module VeriSynth (
 );
 
 	wire [7:0] controlWord;
+	wire [3:0] controlAddress;
 	wire clk;
-	wire controlInterfaceReady;
+	wire controlReady;
 	reg [7:0] amplitude;		
-
+    
 	OSCH #(
 	.NOM_FREQ("2.08")
 	) internal_oscillator_inst (
@@ -38,6 +39,7 @@ module VeriSynth (
 		.OSC(clk)
 	);
 		
+    // The PDM encoder.			
 	PDMEncoder #(
 		.DATA_BITS(8)
 	) pdm_encoder (
@@ -46,19 +48,30 @@ module VeriSynth (
 		.digital_out(pin_vs_dout)
 	);
 	
+	// The SPI control interface.
 	ControlInterface #(
+	    .ADDR_BITS(4),
 		.DATA_BITS(8)
 	) control_interface (
 		.controlWord(controlWord),
-		.controlWordReady(controlInterfaceReady),
+		.controlAddress(controlAddress),
+		.controlReady(controlReady),
 		.SCLK(pin_vs_ss),
 		.MOSI(pin_vs_mosi),
 		.SS(pin_vs_cs) 
 	);
 	
-	always @(posedge controlInterfaceReady) begin		amplitude <= controlWord;
+	// Take action on controlReady according to the
+	// control address. Just map for now the PDM Encoder 
+	// to address 5.
+	always @(posedge controlReady) begin
+		case (controlAddress)
+			5: amplitude <= controlWord;
+		endcase
 	end
 	
-	assign pin_vs_led = controlInterfaceReady;
+	// Just some blinking fun to see something is happening 
+	// on the control interface.
+	assign pin_vs_led = controlReady;
 		
 endmodule
