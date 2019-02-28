@@ -1,6 +1,5 @@
 /*
-   Pulse Desnsity Modulator.
-   Outputs a series of pulses the density of which is proportional to the input "amplitude" value. 
+   Numerically Controlled Oscillator
    
    Copyright (C) 2019 Nicola Cimmino
 
@@ -18,17 +17,18 @@
     along with this program.  If not, see http://www.gnu.org/licenses/.
 
  */
-module PDMEncoder  #(parameter DATA_BITS = 10)(
-  input [DATA_BITS-1:0] amplitude,
-  input wire clock,
-  output wire digital_out
+module NCO #(parameter PA_SIZE = 16, parameter PH_SIZE = 5) (
+  input [PA_SIZE-1:0] frequencyControlWord,
+  input clock,
+  output [PH_SIZE-1:0] phase    
 );
-	reg [DATA_BITS:0] accumulator;
-	
-	always @(posedge clock) begin
-	  accumulator <= (accumulator[DATA_BITS-1 : 0] + amplitude);
+	reg [PA_SIZE:0] phaseAccumulator;
+
+	always @(posedge clock) begin		
+		phaseAccumulator = phaseAccumulator + frequencyControlWord;
 	end
-
-	assign digital_out = accumulator[DATA_BITS];
-
+	
+	assign phase = phaseAccumulator[PA_SIZE-1:PA_SIZE-PH_SIZE];
+	
 endmodule
+

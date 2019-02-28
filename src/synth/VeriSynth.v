@@ -30,8 +30,10 @@ module VeriSynth (
 	wire [3:0] controlAddress;
 	wire clk;
 	wire controlReady;
-	reg [7:0] amplitude;		
-    
+	wire [7:0] amplitude;		
+	wire [4:0] phase;
+    reg [15:0] frequencyControlWord;
+	
 	OSCH #(
 	.NOM_FREQ("2.08")
 	) internal_oscillator_inst (
@@ -61,12 +63,27 @@ module VeriSynth (
 		.SS(pin_vs_cs) 
 	);
 	
+	NCO #(
+		.PA_SIZE(16), 
+		.PH_SIZE(5)
+	) nco (		
+		.frequencyControlWord(frequencyControlWord),
+		.clock(clk),
+		.phase(phase)
+	);
+	
+	WFGen wfGen (
+		.phase(phase),
+		.out(amplitude)		
+	);
+	
 	// Take action on controlReady according to the
 	// control address. Just map for now the PDM Encoder 
 	// to address 5.
 	always @(posedge controlReady) begin
 		case (controlAddress)
-			5: amplitude <= controlWord;
+			5: frequencyControlWord[15:8] <= controlWord;
+			6: frequencyControlWord[7:0] <= controlWord;
 		endcase
 	end
 	
