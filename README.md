@@ -1,2 +1,3 @@
 # veriSynth
-A sound synthesizer in Verilog
+
+![block](docs/block.png)
