@@ -23,7 +23,8 @@ module VeriSynth (
   output pin_vs_dout,
   input pin_vs_ss,
   input pin_vs_mosi,
-  input pin_vs_cs  
+  input pin_vs_cs,
+  input pin_vs_fsk  
 );
 
 	wire [7:0] controlWord;
@@ -34,8 +35,8 @@ module VeriSynth (
 	wire [4:0] phase;
     reg [1:0] waveForm;
 	reg [7:0] pWidth;
-	reg [15:0] frequencyControlWord;
-	
+	reg [15:0] frequencyControlWordA;
+	reg [15:0] frequencyControlWordB;
 	
 	OSCH #(
 	.NOM_FREQ("2.08")
@@ -70,7 +71,7 @@ module VeriSynth (
 		.PA_SIZE(16), 
 		.PH_SIZE(5)
 	) nco (		
-		.frequencyControlWord(frequencyControlWord),
+		.frequencyControlWord(pin_vs_fsk ? frequencyControlWordA : frequencyControlWordB),
 		.clock(clk),
 		.phase(phase)
 	);
@@ -89,8 +90,10 @@ module VeriSynth (
 		case (controlAddress)
 			3: pWidth <= controlWord;
 			4: waveForm <= controlWord[1:0];
-			5: frequencyControlWord[15:8] <= controlWord;
-			6: frequencyControlWord[7:0] <= controlWord;
+			5: frequencyControlWordA[15:8] <= controlWord;
+			6: frequencyControlWordA[7:0] <= controlWord;
+			7: frequencyControlWordB[15:8] <= controlWord;
+			8: frequencyControlWordB[7:0] <= controlWord;
 		endcase
 	end
 	

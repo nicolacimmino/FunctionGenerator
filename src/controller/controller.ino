@@ -17,8 +17,11 @@ void loop()
 {
     writeByte(3, 8); // PW
     writeByte(4, 3);  // WF
-    writeByte(5, 0);  // FCH
-    writeByte(6, 4);  // FCL
+    writeByte(5, 0);  // FCAH
+    writeByte(6, 4);  // FCAL
+    writeByte(7, 0);  // FCBH
+    writeByte(8, 16);  // FCBL
+
     delay(1000);
 }
 
