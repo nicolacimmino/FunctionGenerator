@@ -23,7 +23,7 @@ module VeriSynth (
   output pin_vs_dout,
   input pin_vs_ss,
   input pin_vs_mosi,
-  input pin_vs_cs,
+  input pin_vs_sclk,
   input pin_vs_fsk  
 );
 
@@ -64,7 +64,7 @@ module VeriSynth (
 		.controlReady(controlReady),
 		.SCLK(pin_vs_ss),
 		.MOSI(pin_vs_mosi),
-		.SS(pin_vs_cs) 
+		.SS(pin_vs_sclk) 
 	);
 	
 	NCO #(
