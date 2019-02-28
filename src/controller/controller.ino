@@ -15,14 +15,11 @@ void setup()
 
 void loop()
 {
-    writeByte(5, 0);
-    writeByte(6, 4);
-
-    // for (uint8_t ix = 0; ix < 255; ix++)
-    // {
-    //     writeByte(5, ix);
-    //     //delay(1);
-    // }
+    writeByte(3, 8); // PW
+    writeByte(4, 3);  // WF
+    writeByte(5, 0);  // FCH
+    writeByte(6, 4);  // FCL
+    delay(1000);
 }
 
 void writeByte(uint8_t address, uint8_t data)
@@ -45,8 +42,6 @@ void writeByte(uint8_t address, uint8_t data)
 void writeBit(bool bit)
 {
     digitalWrite(PIN_MOSI, bit);
-    digitalWrite(PIN_SCLK, LOW);
-    //delay(1);
-    digitalWrite(PIN_SCLK, HIGH);
-    //delay(1);
+    digitalWrite(PIN_SCLK, LOW);    
+    digitalWrite(PIN_SCLK, HIGH);    
 }

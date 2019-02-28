@@ -32,7 +32,10 @@ module VeriSynth (
 	wire controlReady;
 	wire [7:0] amplitude;		
 	wire [4:0] phase;
-    reg [15:0] frequencyControlWord;
+    reg [1:0] waveForm;
+	reg [7:0] pWidth;
+	reg [15:0] frequencyControlWord;
+	
 	
 	OSCH #(
 	.NOM_FREQ("2.08")
@@ -72,8 +75,10 @@ module VeriSynth (
 		.phase(phase)
 	);
 	
-	WFGen wfGen (
+	PAC pac (
 		.phase(phase),
+		.waveForm(waveForm),		
+		.pWidth(pWidth),
 		.out(amplitude)		
 	);
 	
@@ -82,6 +87,8 @@ module VeriSynth (
 	// to address 5.
 	always @(posedge controlReady) begin
 		case (controlAddress)
+			3: pWidth <= controlWord;
+			4: waveForm <= controlWord[1:0];
 			5: frequencyControlWord[15:8] <= controlWord;
 			6: frequencyControlWord[7:0] <= controlWord;
 		endcase
