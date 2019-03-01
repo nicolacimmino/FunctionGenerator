@@ -14,9 +14,10 @@ void setup()
 }
 
 void loop()
-{
+{    
+    writeByte(2, 0xF8); // ASKB|ASKA
     writeByte(3, 8); // PW
-    writeByte(4, 3);  // WF
+    writeByte(4, 0);  // WF
     writeByte(5, 0);  // FCAH
     writeByte(6, 4);  // FCAL
     writeByte(7, 0);  // FCBH

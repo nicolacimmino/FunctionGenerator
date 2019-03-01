@@ -28,7 +28,8 @@ module PAC (
   input [4:0] phase,  
   input [1:0] waveForm,
   input [7:0] pWidth,
-  output [7:0] out
+  input [3:0] amplitude,
+  output [11:0] out
 );
 	reg [7:0] sineLut[0:31];
 	
@@ -67,10 +68,10 @@ module PAC (
 		sineLut[31] = 103;	
 	end
 	
-	assign out = (waveForm == 2'b00) ? sineLut[phase] :
+	assign out = amplitude * ((waveForm == 2'b00) ? sineLut[phase] :
 				((waveForm == 2'b01) ? phase << 3 :
 				((waveForm == 2'b10) ? ((phase < 16) ? phase << 3 : (32-phase) << 3) 
-				: ((phase >= pWidth) ? 0 : 255)));
+				: ((phase >= pWidth) ? 0 : 255))));
 				  
 endmodule
 

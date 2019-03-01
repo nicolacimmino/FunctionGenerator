@@ -25,3 +25,4 @@ LOCATE COMP "pin_vs_ss" SITE "4";		// Ax Pin 16
 LOCATE COMP "pin_vs_led" SITE "20";		// Ax Pin 5
 LOCATE COMP "pin_vs_dout" SITE "21";	// Ax Pin 6
 LOCATE COMP "pin_vs_fsk" SITE "17";		// Ax Pin 4
+LOCATE COMP "pin_vs_ask" SITE "16";		// Ax Pin 3

@@ -24,19 +24,22 @@ module VeriSynth (
   input pin_vs_ss,
   input pin_vs_mosi,
   input pin_vs_sclk,
-  input pin_vs_fsk  
+  input pin_vs_fsk,
+  input pin_vs_ask  
 );
 
 	wire [7:0] controlWord;
 	wire [3:0] controlAddress;
 	wire clk;
 	wire controlReady;
-	wire [7:0] amplitude;		
+	wire [11:0] amplitude;		
 	wire [4:0] phase;
     reg [1:0] waveForm;
 	reg [7:0] pWidth;
 	reg [15:0] frequencyControlWordA;
 	reg [15:0] frequencyControlWordB;
+	reg [7:0] amplitudeControlWord;	
+	reg [7:0] amplitudeControlWord;	
 	
 	OSCH #(
 	.NOM_FREQ("2.08")
@@ -47,7 +50,7 @@ module VeriSynth (
 		
 	// The PDM encoder.			
 	PDMEncoder #(
-		.DATA_BITS(8)
+		.DATA_BITS(12)
 	) pdm_encoder (
 		.clock(clk),
 		.amplitude(amplitude),
@@ -71,7 +74,7 @@ module VeriSynth (
 		.PA_SIZE(16), 
 		.PH_SIZE(5)
 	) nco (		
-		.frequencyControlWord(pin_vs_fsk ? frequencyControlWordA : frequencyControlWordB),
+		.frequencyControlWord(pin_vs_fsk ? frequencyControlWordA : frequencyControlWordB),		
 		.clock(clk),
 		.phase(phase)
 	);
@@ -80,6 +83,7 @@ module VeriSynth (
 		.phase(phase),
 		.waveForm(waveForm),		
 		.pWidth(pWidth),
+		.amplitude(pin_vs_ask ? amplitudeControlWord[7:4] : amplitudeControlWord[3:0]),
 		.out(amplitude)		
 	);
 	
@@ -87,7 +91,8 @@ module VeriSynth (
 	// control address. Just map for now the PDM Encoder 
 	// to address 5.
 	always @(posedge controlReady) begin
-		case (controlAddress)
+		case (controlAddress)			
+			2: amplitudeControlWord <= controlWord;			
 			3: pWidth <= controlWord;
 			4: waveForm <= controlWord[1:0];
 			5: frequencyControlWordA[15:8] <= controlWord;

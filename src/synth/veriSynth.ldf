@@ -12,7 +12,13 @@
         <Source name="ControlInterface.v" type="Verilog" type_short="Verilog">
             <Options/>
         </Source>
-        <Source name="simulation/simulation.spf" type="Simulation Project File" type_short="SPF">
+        <Source name="NCO.v" type="Verilog" type_short="Verilog">
+            <Options/>
+        </Source>
+        <Source name="PAC.v" type="Verilog" type_short="Verilog">
+            <Options/>
+        </Source>
+        <Source name="impl1/impl1.xcf" type="Programming Project File" type_short="Programming">
             <Options/>
         </Source>
         <Source name="veriSynth.lpf" type="Logic Preference" type_short="LPF">
