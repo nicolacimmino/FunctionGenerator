@@ -19,6 +19,7 @@
  */
 module NCO #(parameter PA_SIZE = 16, parameter PH_SIZE = 5) (
   input [PA_SIZE-1:0] frequencyControlWord,
+  input [(PA_SIZE/2)-1:0] phaseShiftControlWord,
   input clock,
   output [PH_SIZE-1:0] phase    
 );
@@ -28,7 +29,7 @@ module NCO #(parameter PA_SIZE = 16, parameter PH_SIZE = 5) (
 		phaseAccumulator = phaseAccumulator + frequencyControlWord;
 	end
 	
-	assign phase = phaseAccumulator[PA_SIZE-1:PA_SIZE-PH_SIZE];
+	assign phase = phaseAccumulator[PA_SIZE-1:PA_SIZE-PH_SIZE] + phaseShiftControlWord;
 	
 endmodule
 

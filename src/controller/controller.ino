@@ -14,7 +14,9 @@ void setup()
 }
 
 void loop()
-{    
+{   
+    writeByte(0, 0); // PHCA
+    writeByte(1, 255); // PHCB
     writeByte(2, 0xF8); // ASKB|ASKA
     writeByte(3, 8); // PW
     writeByte(4, 0);  // WF

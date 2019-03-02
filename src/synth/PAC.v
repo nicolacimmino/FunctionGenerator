@@ -69,8 +69,8 @@ module PAC (
 	end
 	
 	assign out = amplitude * ((waveForm == 2'b00) ? sineLut[phase] :
-				((waveForm == 2'b01) ? phase << 3 :
-				((waveForm == 2'b10) ? ((phase < 16) ? phase << 3 : (32-phase) << 3) 
+				((waveForm == 2'b01) ? phase << 4 :
+				((waveForm == 2'b10) ? ((phase < 16) ? phase << 4 : (32-phase) << 4) 
 				: ((phase >= pWidth) ? 0 : 255))));
 				  
 endmodule
