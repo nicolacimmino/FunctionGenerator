@@ -15,17 +15,21 @@ void setup()
 
 void loop()
 {   
+    static uint8_t freq = 0;
+
+    freq++;
+
     writeByte(0, 0); // PHCA
     writeByte(1, 255); // PHCB
     writeByte(2, 0xF8); // ASKB|ASKA
     writeByte(3, 8); // PW
-    writeByte(4, 0);  // WF
+    writeByte(4, 0);  // WF 0 sine, 1 sawtooth, 2 triangle, 3 pulse
     writeByte(5, 0);  // FCAH
     writeByte(6, 4);  // FCAL
     writeByte(7, 0);  // FCBH
-    writeByte(8, 16);  // FCBL
+    writeByte(8, freq);  // FCBL
 
-    delay(1000);
+    delay(10);
 }
 
 void writeByte(uint8_t address, uint8_t data)
